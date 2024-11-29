@@ -30,7 +30,7 @@ class Request
 
   public function getMethod(): string
   {
-    return $_SERVER['REQUEST_METHOD'];
+    return strtolower($_SERVER['REQUEST_METHOD']);
   }
 
   public function getPath(): string

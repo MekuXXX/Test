@@ -19,7 +19,7 @@ class Env
 
       [$key, $value] = explode('=', $line, 2);
       $key = trim($key);
-      $value = trim(trim($value), '"\'');
+      $value = trim(trim(explode("#", $value)[0]), '"\'');
 
       if (!array_key_exists($key, $_ENV)) {
         $_ENV[$key] = $value; // Add to the $_ENV superglobal

@@ -44,6 +44,8 @@ services:
     hostname: api.cc.localhost
     labels:
       - traefik.http.routers.api.rule=Host(`api.cc.localhost`)
+    command: bash -c "docker-php-ext-install pdo_mysql && docker-php-ext-enable pdo_mysql && apache2-foreground"
+
   front:
     image: php:8.3-apache
     container_name: front

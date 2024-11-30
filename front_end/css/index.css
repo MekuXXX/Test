@@ -1,0 +1,219 @@
+/* CSS Variables */
+:root {
+  --primary-color: #0073e6;
+  --text-color: #555;
+  --background-color: #f9f9f9;
+  --border-color: #ccc;
+  --font-family: Arial, sans-serif;
+  --padding: 15px;
+  --gap: 20px;
+  --border-radius: 5px;
+  --transition: all 0.3s ease;
+  --sidebar-width: 320px;
+}
+
+/* General styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: var(--padding);
+  text-align: center;
+}
+
+main {
+  display: flex;
+  position: relative;
+  transition: var(--transition);
+}
+
+/* Sidebar styles */
+#categories {
+  min-width: var(--sidebar-width);
+  padding: var(--padding);
+  border-right: 1px solid var(--border-color);
+  position: relative;
+  transition: transform 0.3s ease;
+  min-height: calc(100vh - 150px);
+}
+
+#categories.closed {
+  position: absolute;
+  transform: translateX(-100%);
+}
+
+#categories ul {
+  list-style: none;
+  padding: 0;
+}
+
+#categories li {
+  margin: 10px 0;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+#categories li:hover {
+  text-decoration: underline;
+}
+
+.collapse-btn {
+  display: grid;
+  place-content: center;
+}
+
+.collapse-img {
+  width: 10px;
+  height: 10px;
+  overflow: clip;
+}
+
+/* Course grid styles */
+#courses {
+  width: calc(100% - var(--sidebar-width));
+  padding: var(--padding);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--gap);
+  align-items: start;
+  justify-content: start;
+  height: fit-content;
+  transition: var(--transition);
+}
+
+#categories.closed + #courses {
+  width: 100%;
+}
+
+/* Course card styles */
+.course-card {
+  position: relative;
+  border: 1px solid var(--border-color);
+  max-width: 750px;
+  border-radius: var(--border-radius);
+  padding: var(--padding);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--background-color);
+}
+
+.course-card img {
+  width: 100%;
+  min-height: 200px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+}
+
+.course-card h3,
+.course-card p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.course-card h3 {
+  margin: 10px 0;
+  font-size: 1.2rem;
+  -webkit-line-clamp: 1;
+}
+
+.course-card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  -webkit-line-clamp: 3;
+}
+
+.course-card span {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: var(--text-color);
+}
+
+/* Toggle button styles */
+.toggle-btn {
+  position: absolute;
+  top: var(--padding);
+  right: -15px;
+  background-color: var(--primary-color);
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition);
+  z-index: 2;
+}
+
+.toggle-btn img {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+  transform: rotate(180deg);
+}
+
+#categories.closed .toggle-btn img {
+  transform: rotate(0deg);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  #categories {
+    width: 100%;
+    transform: translateX(0);
+    position: absolute;
+    background: white;
+    border-right: none;
+    padding: 10px;
+  }
+
+  #courses {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .course-card img {
+    min-height: 340px;
+  }
+
+  #categories.closed .toggle-btn {
+    left: auto;
+    right: -10px;
+  }
+
+  .toggle-btn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+  }
+}
+
+@media (max-width: 1025px) {
+  .course-card h3,
+  .course-card p {
+    overflow: visible;
+    text-overflow: clip;
+    -webkit-box-orient: horizontal;
+    -webkit-line-clamp: none;
+  }
+}

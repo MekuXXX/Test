@@ -77,5 +77,5 @@ function insertData(string $tableName, string $filePath)
   }
 }
 
-insertData("categories", "/home/mekux/SRC/Development/Projects/KnowledgeCity_Test/data/categories.json");
-insertData("courses", "/home/mekux/SRC/Development/Projects/KnowledgeCity_Test/data/course_list.json");
+insertData("categories", __DIR__ . "../data/categories.json");
+insertData("courses", __DIR__ . "../data/course_list.json");

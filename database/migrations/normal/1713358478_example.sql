@@ -1,5 +1,5 @@
 -- up
-CREATE TABLE `skills` (
+CREATE TABLE IF NOT EXISTS `skills` (
     `id` VARCHAR(255),
     `name` VARCHAR(255) NOT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

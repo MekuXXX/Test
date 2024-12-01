@@ -27,6 +27,14 @@ class Application
 
   public function run()
   {
+    header("Access-Control-Allow-Origin: http://cc.localhost");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+    if ($this->request->getMethod() == 'OPTIONS') {
+      http_response_code(200);
+      exit();
+    }
     try {
       echo $this->router->resolve();
     } catch (HttpException $e) {

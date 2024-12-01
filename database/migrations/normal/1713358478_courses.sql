@@ -9,6 +9,9 @@ CREATE TABLE IF NOT EXISTS `categories` (
     PRIMARY KEY (`id`)
 );
 
+-- Note: Got error when trying to add parent id as foriegn key even if categories sorted and inserted one by one
+-- FOREIGN KEY (`parent_id`) REFERENCES `categories`(`id`) ON DELETE SET NULL
+
 -- up
 INSERT INTO `courses` (`id`, `name`, `description`, `preview`, `category_id`)
 VALUES

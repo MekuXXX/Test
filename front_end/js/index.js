@@ -1,26 +1,37 @@
 const categoryList = document.getElementById("categories");
 const courseList = document.getElementById("courses");
+const homeButton = document.getElementById("home-button");
 const toggleSidebarButton = document.getElementById("toggle-sidebar");
+const BASE_SERVER_URL = "http://api.cc.localhost";
 
-function buildCategoryTree(categories, parentId = null) {
-  return categories
-    .filter((category) => category.parent === parentId)
-    .map((category) => {
-      const childCategories = buildCategoryTree(categories, category.id);
-      const courseCount = calculateCourseCount(category.id, childCategories);
-      return { ...category, childCategories, courseCount };
-    });
+async function fetchCategories(id = null) {
+  const newCategories = await (
+    await fetch(`${BASE_SERVER_URL}/categories${id ? `/${id}` : ""}`)
+  ).json();
+
+  return newCategories;
 }
 
-function calculateCourseCount(categoryId, childCategories) {
-  const directCourses = courses.filter(
-    (course) => course.category_id === categoryId
-  ).length;
-  const childCourseCount = childCategories.reduce(
-    (acc, child) => acc + calculateCourseCount(child.id, child.childCategories),
-    0
-  );
-  return directCourses + childCourseCount;
+async function fetchCourses(id = null, categoryId = null) {
+  return await (
+    await fetch(
+      `${BASE_SERVER_URL}/courses${id ? `/${id}` : ""}${
+        categoryId ? `?category_id=${categoryId}` : ""
+      }`
+    )
+  ).json();
+}
+
+function buildCategoryTree(categories, parentId = "") {
+  return categories
+    .filter((category) => {
+      const res = category.parent_id === parentId;
+      return res;
+    })
+    .map((category) => {
+      const childCategories = buildCategoryTree(categories, category.id);
+      return { ...category, childCategories };
+    });
 }
 
 function renderCategories(categoryTree, depth = 0) {
@@ -33,9 +44,7 @@ function renderCategories(categoryTree, depth = 0) {
 
   categoryTree.forEach((c) => {
     const li = document.createElement("li");
-    li.textContent = `${c.name} ${
-      c.courseCount > 0 ? `(${c.courseCount})` : ""
-    }`;
+    li.textContent = `${c.name} (${c.count_of_courses})`;
 
     li.addEventListener("click", (event) => {
       event.stopPropagation();
@@ -118,12 +127,14 @@ function renderCourses(courseData) {
     const card = document.createElement("div");
     card.className = "course-card";
     card.innerHTML = `
-      <img src="${course.image_preview}" alt="${course.title}">
-      <span style="position: absolute; right: 15px; top: 5px; background-color: var(--primary-color); color: white; font-size: 20px; padding: 4px 6px;border-radius: var(--border-radius)">${getRootCategoryName(
-        course.category_id
-      )}</span>
+      <img src="${course.preview}" alt="${
+      course.name
+    }"> <!-- Updated to 'preview' -->
+      <span style="position: absolute; right: 15px; top: 5px; background-color: var(--primary-color); color: white; font-size: 20px; padding: 4px 6px;border-radius: var(--border-radius)">
+        ${getRootCategoryName(course.category_id)}
+      </span>
       <div>
-        <h3>${course.title}</h3>
+        <h3>${course.name}</h3> <!-- Updated to 'name' -->
         <p>${course.description}</p>
         <span>Category: ${getCategoryName(course.category_id)}</span>
       </div>
@@ -139,25 +150,39 @@ function getCategoryName(categoryId) {
 
 function getRootCategoryName(categoryId) {
   const category = categories.find((cat) => cat.id === categoryId);
-
   if (!category) {
     return "Unknown";
   }
 
-  if (category.parent === null) {
+  if (category.parent_id === "") {
     return category.name;
   }
 
-  return getRootCategoryName(category.parent);
+  return getRootCategoryName(category.parent_id);
 }
+
+async function renderPage(categories, courses) {
+  const categoryTree = buildCategoryTree(categories);
+  const ul = renderCategories(categoryTree, 0);
+  categoryList.appendChild(ul);
+  renderCourses(courses);
+}
+
+// Initialize
+const categoriesRes = await fetchCategories();
+const categories = categoriesRes.data.categories;
+console.log(categories);
+
+const coursesRes = await fetchCourses();
+const courses = coursesRes.data.courses;
+
+renderPage(categories, courses);
 
 toggleSidebarButton.addEventListener("click", () => {
   categoryList.classList.toggle("closed");
   toggleSidebarButton.querySelector("img").classList.toggle("flipped");
 });
 
-// Initialize
-const categoryTree = buildCategoryTree(categories);
-const ul = renderCategories(categoryTree, 0);
-categoryList.appendChild(ul);
-renderCourses(courses);
+homeButton.addEventListener("click", () => {
+  renderCourses(courses);
+});

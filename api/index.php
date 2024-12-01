@@ -17,7 +17,7 @@ $app = new Application([
 ]);
 
 $app->router->get('/categories', [Categories::class, 'getAll']);
-$app->router->get('/categories/:id', [Categories::class, 'getAll']);
+$app->router->get('/categories/:id', [Categories::class, 'get']);
 $app->router->get('/courses', [Courses::class, 'getAll']);
 $app->router->get('/courses/:id', [Courses::class, 'get']);
 

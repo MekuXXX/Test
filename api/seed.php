@@ -144,7 +144,7 @@ function insertData(string $tableName, array $data)
 //   }
 // }
 
-$categoriesData = readJson(__DIR__ . "/../data/categories.json");
+$categoriesData = readJson(__DIR__ . "/data/categories.json");
 $categoriesData = array_map(function ($category) {
   $category['parent_id'] = $category['parent'];
   unset($category['parent']);
@@ -152,7 +152,7 @@ $categoriesData = array_map(function ($category) {
 }, $categoriesData);
 insertData("categories", $categoriesData);
 
-$coursesData = readJson(__DIR__ . "/../data/course_list.json");
+$coursesData = readJson(__DIR__ . "/data/course_list.json");
 $coursesData = array_map(function ($course) {
   $course['id'] = $course['course_id'];
   unset($course['course_id']);

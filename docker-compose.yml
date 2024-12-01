@@ -40,12 +40,14 @@ services:
       - db
     volumes:
       - ./api/:/var/www/html/
+      - ./database/migrations/class/:/var/www/html/migrations/
+      - ./data:/var/www/html/data/
     stdin_open: true
     tty: true
     hostname: api.cc.localhost
     labels:
       - traefik.http.routers.api.rule=Host(`api.cc.localhost`)
-    command: bash -c "a2enmod rewrite && docker-php-ext-install pdo_mysql && docker-php-ext-enable pdo_mysql && apache2-foreground"
+    command: bash -c "a2enmod rewrite && mkdir -p migrations data && docker-php-ext-install pdo_mysql && docker-php-ext-enable pdo_mysql && apache2-foreground"
 
   front:
     image: php:8.3-apache

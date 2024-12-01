@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../../../api/Core/Migration.php';
-require_once __DIR__ . '/../../../api/Core/Application.php';
+require_once __DIR__ . '/../Core/Migration.php';
+require_once __DIR__ . '/../Core/Application.php';
 
 class c1713358478_courses implements IMigration
 {

@@ -53,21 +53,26 @@ class Request
 
   public function isGet(): bool
   {
-    return $this->getMethod() === 'GET';
+    return $this->getMethod() === 'get';
   }
 
   public function isPost(): bool
   {
-    return $this->getMethod() === 'POST';
+    return $this->getMethod() === 'post';
   }
 
   public function isPut(): bool
   {
-    return $this->getMethod() === 'PUT';
+    return $this->getMethod() === 'put';
+  }
+
+  public function isPatch(): bool
+  {
+    return $this->getMethod() === 'patch';
   }
 
   public function isDelete(): bool
   {
-    return $this->getMethod() === 'DELETE';
+    return $this->getMethod() === 'delete';
   }
 }

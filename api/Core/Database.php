@@ -72,7 +72,7 @@ class Database
     $deletedMigrations = [];
 
     if ($depth === 0) {
-      $migrationsToDelete = $appliedMigrations;  // Delete all migrations
+      $migrationsToDelete = $appliedMigrations;
     } else {
       $migrationsToDelete = array_slice($appliedMigrations, -$depth);
     }

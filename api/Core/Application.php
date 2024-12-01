@@ -32,9 +32,10 @@ class Application
     header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
     if ($this->request->getMethod() == 'OPTIONS') {
-      http_response_code(200);
+      $this->response->setStatusCode(200)->send();
       exit();
     }
+
     try {
       echo $this->router->resolve();
     } catch (HttpException $e) {

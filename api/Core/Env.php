@@ -22,8 +22,8 @@ class Env
       $value = trim(trim(explode("#", $value)[0]), '"\'');
 
       if (!array_key_exists($key, $_ENV)) {
-        $_ENV[$key] = $value; // Add to the $_ENV superglobal
-        putenv("$key=$value"); // Optional: Set it in the environment variables
+        $_ENV[$key] = $value;
+        putenv("$key=$value");
       } else {
         throw new Exception("Error: There is already an environment variable with key ('{$key}')\n");
       }

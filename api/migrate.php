@@ -12,7 +12,7 @@ $app = new Application(
     'host' => $_ENV['DB_HOST'],
     'port' => $_ENV['DB_PORT'],
     'database' => $_ENV['DB_DATABASE'],
-    'migration' => __DIR__ . '/../database/migrations/class'
+    'migration' => __DIR__ . '/migrations'
   ],
 );
 
